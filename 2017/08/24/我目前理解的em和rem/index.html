@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Gringe">
 <meta property="og:description" content="关于em与rem对于大部分浏览器来说，font-size如果是100%，默认就是16px所有未经调整的浏览器都符合：1em=16px。那么12px=0.75em，10px=0.625em 于此，利用多媒体查询对body的font-size做了以下查询 123456789101112131415161718@media only screen and (min-width:319px) and (m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-24T08:03:46.665Z">
+<meta property="og:updated_time" content="2017-08-24T08:05:57.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我目前理解的em和rem">
 <meta name="twitter:description" content="关于em与rem对于大部分浏览器来说，font-size如果是100%，默认就是16px所有未经调整的浏览器都符合：1em=16px。那么12px=0.75em，10px=0.625em 于此，利用多媒体查询对body的font-size做了以下查询 123456789101112131415161718@media only screen and (min-width:319px) and (m">
@@ -331,13 +331,14 @@
 <p>依据我司的习惯，设计稿1080与手机屏幕比的比例大致是三倍，48px=(48/3/16)em</p>
 <p>一直以来习惯于使用em，但是后来发现弊端还是挺多的</p>
 <ul>
-<li>#####弊端一：</li>
+<li>弊端一：</li>
 </ul>
 <p>em是相对于父元素的font-size属性来决定自高的，在嵌套的标签下，会出现以下情况<br>这里使用sass，比如一个content里面的字体是12px(此时默认是除以设计搞的值)，p的字体是18px，那么要换算成em，content的font-size:(12/16)em = 0.75em，p的font-size:(18/16)=1.125em</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.content</span>&#123;</div><div class="line">    <span class="attribute">font-size</span>:<span class="number">0.75em</span>; <span class="comment">/*font-size:12px (12/16)=0.75*/</span></div><div class="line">        <span class="selector-tag">p</span>&#123;</div><div class="line">            <span class="attribute">font-size</span>:<span class="number">1.125em</span>; <span class="comment">/*font-size:13.5px (0.75*1.125*16),而不是想要的18px*/</span></div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>对于此问题，一般再除以父元素计算<br><figure class="highlight scss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.content</span>&#123;</div><div class="line">    <span class="attribute">font-size</span>:<span class="number">0.75em</span>;  <span class="comment">/*font-size:12px*/</span></div><div class="line">        <span class="selector-tag">p</span>&#123;</div><div class="line">            <span class="attribute">font-size</span>:<span class="number">1.5em</span>;  <span class="comment">/*(18/16/0.75)得到想要的(0.75*1.5*16)=18px*/</span></div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对于此问题，一般再除以父元素计算</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.content</span>&#123;</div><div class="line">    <span class="attribute">font-size</span>:<span class="number">0.75em</span>;  <span class="comment">/*font-size:12px*/</span></div><div class="line">        <span class="selector-tag">p</span>&#123;</div><div class="line">            <span class="attribute">font-size</span>:<span class="number">1.5em</span>;  <span class="comment">/*(18/16/0.75)得到想要的(0.75*1.5*16)=18px*/</span></div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
-<li>#####弊端二：</li>
+<li>弊端二：</li>
 </ul>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-class">.tips-1</span>&#123;</div><div class="line">    <span class="attribute">font-size</span>:<span class="number">2em</span>;</div><div class="line">    margin-bottom:1em; //32px</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-tag">p</span><span class="selector-class">.tips-2</span>&#123;</div><div class="line">    <span class="attribute">font-size</span>:<span class="number">1em</span>;</div><div class="line">    margin-bottom:1em; //16px</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>打开控制台，看到Elemnets下的Computed下的盒子模型，你萌会发现两个标签的margin-bottom的值是不相等的=_=!!! (我也是后来才知道的，难怪设计同学一直以来找我的茬)</p>
