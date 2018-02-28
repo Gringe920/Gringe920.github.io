@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="note," />
 
 
 
@@ -94,17 +94,18 @@
 
 
 
-<meta name="description" content="NODE_PATH环境变量NodeJS允许通过NODE_PATH环境变量来指定额外的模块搜索路径。NODE_PATH环境变量中包含一到多个目录路径。">
+<meta name="description" content="直出与同构直出：直接服务器生成HTML，返回给前端，由浏览器渲染。服务器访问数据接口，拿到数据后，根据相应页面模板（Node modules）生成相应的html返回给浏览器。速度快，有利于seo； MVVM：如React/Vue，浏览器请求接口，得到数据后，在浏览器端渲染出页面； 同构：直出与MVVM的结合。 React 同构React 虚拟DomReact虚拟Dom存在于前后端两种展示原型的形式">
+<meta name="keywords" content="note">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NodeJS学习(二)-包和NPM概念">
-<meta property="og:url" content="http://yoursite.com/2017/09/05/NodeJS学习-二-包和NPM概念/index.html">
+<meta property="og:title" content="同构与直出">
+<meta property="og:url" content="http://yoursite.com/2018/02/28/同构与直出/index.html">
 <meta property="og:site_name" content="Gringe">
-<meta property="og:description" content="NODE_PATH环境变量NodeJS允许通过NODE_PATH环境变量来指定额外的模块搜索路径。NODE_PATH环境变量中包含一到多个目录路径。">
+<meta property="og:description" content="直出与同构直出：直接服务器生成HTML，返回给前端，由浏览器渲染。服务器访问数据接口，拿到数据后，根据相应页面模板（Node modules）生成相应的html返回给浏览器。速度快，有利于seo； MVVM：如React/Vue，浏览器请求接口，得到数据后，在浏览器端渲染出页面； 同构：直出与MVVM的结合。 React 同构React 虚拟DomReact虚拟Dom存在于前后端两种展示原型的形式">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-05T08:21:57.000Z">
+<meta property="og:updated_time" content="2018-02-28T03:49:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NodeJS学习(二)-包和NPM概念">
-<meta name="twitter:description" content="NODE_PATH环境变量NodeJS允许通过NODE_PATH环境变量来指定额外的模块搜索路径。NODE_PATH环境变量中包含一到多个目录路径。">
+<meta name="twitter:title" content="同构与直出">
+<meta name="twitter:description" content="直出与同构直出：直接服务器生成HTML，返回给前端，由浏览器渲染。服务器访问数据接口，拿到数据后，根据相应页面模板（Node modules）生成相应的html返回给浏览器。速度快，有利于seo； MVVM：如React/Vue，浏览器请求接口，得到数据后，在浏览器端渲染出页面； 同构：直出与MVVM的结合。 React 同构React 虚拟DomReact虚拟Dom存在于前后端两种展示原型的形式">
 
 
 
@@ -134,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/05/NodeJS学习-二-包和NPM概念/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/28/同构与直出/"/>
 
 
 
 
 
-  <title>NodeJS学习(二)-包和NPM概念 | Gringe</title>
+  <title>同构与直出 | Gringe</title>
   
 
 
@@ -257,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/05/NodeJS学习-二-包和NPM概念/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/同构与直出/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gringe">
@@ -274,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">NodeJS学习(二)-包和NPM概念</h1>
+          <h1 class="post-title" itemprop="name headline">同构与直出</h1>
         
 
         <div class="post-meta">
@@ -286,8 +287,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-05T16:11:12+08:00">
-                2017-09-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T11:45:37+08:00">
+                2018-02-28
               </time>
             
 
@@ -324,20 +325,18 @@
       
 
       
-        <h3 id="NODE-PATH环境变量"><a href="#NODE-PATH环境变量" class="headerlink" title="NODE_PATH环境变量"></a>NODE_PATH环境变量</h3><p>NodeJS允许通过NODE_PATH环境变量来指定额外的模块搜索路径。NODE_PATH环境变量中包含一到多个目录路径。</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NODE_PATH = /project/user/lib;/project/lib</div></pre></td></tr></table></figure>
-<h3 id="包（package）"><a href="#包（package）" class="headerlink" title="包（package）"></a>包（package）</h3><p>一个JS模块相当于一个子模块，多个子模块组成的复杂模块在这里称为包。<br>包有一个入口模块，入口模块导出的对象被称为包的导出对象。例如下方，cat称为一个包。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- /project/lib/</div><div class="line">    - cat/</div><div class="line">        head.js</div><div class="line">        body.js</div><div class="line">        main.js</div></pre></td></tr></table></figure></p>
-<p>但是上面目录引入主入口时候是<code>require(&#39;./project/lib/cat/main&#39;)</code>，这样在引入过于繁琐，于是有了下面方法。</p>
-<p>通过<code>package.json</code>自定义入口模块和存放位置，于是目录下增加<code>package.json</code>文件，NodeJS会根据<code>package.json</code>找到对应的入口文件<br>包工程目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- /project/</div><div class="line">    - cat/</div><div class="line">        - lib/</div><div class="line">            head.js</div><div class="line">            body.js</div><div class="line">            main.js</div><div class="line">        package.json</div></pre></td></tr></table></figure></p>
-<p><code>package.json</code>内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;name&quot;:&quot;cat&quot;,</div><div class="line">    &quot;main&quot;:&quot;./lib/main.js&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>修改后，便可通过<code>require(&#39;./project/lib/cat&#39;)</code>的方式加载模块</p>
-<h4 id="让node执行我们想要的命令行程序"><a href="#让node执行我们想要的命令行程序" class="headerlink" title="让node执行我们想要的命令行程序"></a>让node执行我们想要的命令行程序</h4><h4 id="让自己项目拥有一个良好的目录"><a href="#让自己项目拥有一个良好的目录" class="headerlink" title="让自己项目拥有一个良好的目录"></a>让自己项目拥有一个良好的目录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- /home/user/workspace/node-echo/   # 工程目录</div><div class="line">    - bin/                          # 存放命令行相关代码</div><div class="line">        node-echo</div><div class="line">    + doc/                          # 存放文档</div><div class="line">    - lib/                          # 存放API相关代码</div><div class="line">        echo.js</div><div class="line">    - node_modules/                 # 存放三方包</div><div class="line">        + argv/</div><div class="line">    + tests/                        # 存放测试用例</div><div class="line">    package.json                    # 元数据文件</div><div class="line">    README.md                       # 说明文件</div></pre></td></tr></table></figure>
-<h4 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h4><p>上面有个包的概念，就会有一个管理包的东西。NPM就是随同NodeJS一起安装的包管理工具。NPM相当于一个服务器，挂载着各种各样的包。</p>
-<h5 id="NPM作用（一）-下载包"><a href="#NPM作用（一）-下载包" class="headerlink" title="NPM作用（一）- 下载包"></a>NPM作用（一）- 下载包</h5><p>NPM对<code>package.json</code>做了扩展，允许在其中声明第三方依赖包，当你工程的包越来越多的时候，声明好了<code>dependencies</code>，直接npm i就可以批量安装三方包了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;name&quot;:&quot;cat&quot;,</div><div class="line">    &quot;main&quot;:&quot;./lib/main.js&quot;,</div><div class="line">    &quot;dependencies&quot;:&#123;</div><div class="line">        &quot;debug&quot;: &quot;^2.6.1&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h5 id="NPM作用（二）-安装命令行程序"><a href="#NPM作用（二）-安装命令行程序" class="headerlink" title="NPM作用（二）- 安装命令行程序"></a>NPM作用（二）- 安装命令行程序</h5><p>如若包提供了命令行的使用方式，只要执行<code>npm install XXX -g</code><br><code>-g</code>表示全局安装</p>
-<h5 id="NPM作用（三）-发布包"><a href="#NPM作用（三）-发布包" class="headerlink" title="NPM作用（三）- 发布包"></a>NPM作用（三）- 发布包</h5><p>第一次发布NPM代码需要注册账号，<code>npm adduser</code>，<code>npm publish</code></p>
+        <h2 id="直出与同构"><a href="#直出与同构" class="headerlink" title="直出与同构"></a>直出与同构</h2><p>直出：直接服务器生成HTML，返回给前端，由浏览器渲染。服务器访问数据接口，拿到数据后，根据相应页面模板（Node modules）生成相应的html返回给浏览器。速度快，有利于seo；</p>
+<p>MVVM：如React/Vue，浏览器请求接口，得到数据后，在浏览器端渲染出页面；</p>
+<p>同构：直出与MVVM的结合。</p>
+<h2 id="React-同构"><a href="#React-同构" class="headerlink" title="React 同构"></a>React 同构</h2><h5 id="React-虚拟Dom"><a href="#React-虚拟Dom" class="headerlink" title="React 虚拟Dom"></a>React 虚拟Dom</h5><p>React虚拟Dom存在于前后端两种展示原型的形式</p>
+<p>1.客户端上，虚拟Dom通过ReactDOM的Render方法渲染到页面中；</p>
+<p>2.服务端上，react通过<code>ReactDOMServer.renderToString</code>和<code>ReactDOMServer.renderToStaticMarkup</code> 将其渲染成HTML字符串</p>
+<p>栗子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> ReactDOMServer <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</div><div class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./app.js'</span></div><div class="line"><span class="keyword">const</span> reactHtml = ReactDOMServer.renderToString(&lt;App data = &#123;templData&#125;&gt;);</div></pre></td></tr></table></figure>
+<p>app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;;</div><div class="line">import ReactDOM from &apos;react-dom&apos;;</div><div class="line"></div><div class="line">ReactDOM.render(</div><div class="line">    &lt;div&gt;</div><div class="line">        react app test</div><div class="line">    &lt;/div&gt;,</div><div class="line">    document.getElementById(&apos;react-html-container&apos;)</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"react-html-container"</span>&gt;</span><span class="tag">&lt;<span class="name">%=#reactHtml%</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -353,6 +352,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/note/" rel="tag"># note</a>
+          
+        </div>
+      
 
       
       
@@ -362,8 +367,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/04/NodeJS学习-一-基础概念/" rel="next" title="NodeJS学习(一)-基础概念">
-                <i class="fa fa-chevron-left"></i> NodeJS学习(一)-基础概念
+              <a href="/2017/09/26/Array之遍历/" rel="next" title="Array之遍历">
+                <i class="fa fa-chevron-left"></i> Array之遍历
               </a>
             
           </div>
@@ -371,10 +376,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/26/Array之遍历/" rel="prev" title="Array之遍历">
-                Array之遍历 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -523,7 +524,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NODE-PATH环境变量"><span class="nav-number">1.</span> <span class="nav-text">NODE_PATH环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包（package）"><span class="nav-number">2.</span> <span class="nav-text">包（package）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#让node执行我们想要的命令行程序"><span class="nav-number">2.1.</span> <span class="nav-text">让node执行我们想要的命令行程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#让自己项目拥有一个良好的目录"><span class="nav-number">2.2.</span> <span class="nav-text">让自己项目拥有一个良好的目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NPM"><span class="nav-number">2.3.</span> <span class="nav-text">NPM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#NPM作用（一）-下载包"><span class="nav-number">2.3.1.</span> <span class="nav-text">NPM作用（一）- 下载包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NPM作用（二）-安装命令行程序"><span class="nav-number">2.3.2.</span> <span class="nav-text">NPM作用（二）- 安装命令行程序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NPM作用（三）-发布包"><span class="nav-number">2.3.3.</span> <span class="nav-text">NPM作用（三）- 发布包</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#直出与同构"><span class="nav-number">1.</span> <span class="nav-text">直出与同构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-同构"><span class="nav-number">2.</span> <span class="nav-text">React 同构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#React-虚拟Dom"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">React 虚拟Dom</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
